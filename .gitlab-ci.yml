@@ -1,0 +1,124 @@
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - setup
+  - test
+  - deploy
+
+setup:
+  stage: setup
+  tags: 
+    - test
+  before_script:
+    - export PATH=$HOME/.nvm/versions/node/v10.16.3/bin:$PATH
+    - export PATH=$HOME/.yarn/bin:$PATH
+  script:
+    - yarn install
+
+test:
+  stage: test
+  tags: 
+    - test
+  before_script:
+    - export PATH=$HOME/.nvm/versions/node/v10.16.3/bin:$PATH
+    - export PATH=$HOME/.yarn/bin:$PATH
+  script: 
+    - yarn test
+
+deploy_staging:
+  stage: deploy
+  tags: 
+    - build
+  before_script:
+    - chmod +x ./bin/build.sh
+    - bash ./bin/build.sh staging
+    - docker info
+    - docker image prune -f 
+  script:
+    - docker build 
+      --build-arg NODE_PATH=$NODE_PATH
+      --build-arg REACT_APP_API=$REACT_APP_STAGING_API
+      --build-arg REACT_APP_YODLEE_API=$REACT_APP_YODLEE_SANDBOX_API
+      --build-arg REACT_APP_YODLEE_FASTLINK=$REACT_APP_YODLEE_FASTLINK_SANDBOX
+      --build-arg REACT_APP_SENTRY_DNS=$REACT_APP_SENTRY_DNS
+      --build-arg REACT_APP_SEGMENT_KEY=$REACT_APP_STAGING_SEGMENT_KEY
+      --build-arg REACT_APP_MAP_KEY=$REACT_APP_MAP_KEY
+      --no-cache -t spence-staging .
+    - docker run -d 
+      -e NODE_PATH=$NODE_PATH
+      -e REACT_APP_API=$REACT_APP_STAGING_API
+      -e REACT_APP_YODLEE_API=$REACT_APP_YODLEE_SANDBOX_API
+      -e REACT_APP_YODLEE_FASTLINK=$REACT_APP_YODLEE_FASTLINK_SANDBOX
+      -e REACT_APP_SENTRY_DNS=$REACT_APP_SENTRY_DNS
+      -e REACT_APP_SEGMENT_KEY=$REACT_APP_STAGING_SEGMENT_KEY
+      -e REACT_APP_MAP_KEY=$REACT_APP_MAP_KEY
+      -p 1337:80 spence-staging
+  when: manual
+  only:
+    - develop
+
+deploy_uat:
+  stage: deploy
+  tags: 
+    - build
+  before_script:
+    - chmod +x ./bin/build.sh
+    - bash ./bin/build.sh uat
+    - docker info
+    - docker image prune -f 
+  script:
+    - docker build
+      --build-arg NODE_PATH=$NODE_PATH
+      --build-arg REACT_APP_API=$REACT_APP_UAT_API
+      --build-arg REACT_APP_YODLEE_API=$REACT_APP_YODLEE_SANDBOX_API
+      --build-arg REACT_APP_YODLEE_FASTLINK=$REACT_APP_YODLEE_FASTLINK_UAT
+      --build-arg REACT_APP_SENTRY_DNS=$REACT_APP_SENTRY_DNS
+      --build-arg REACT_APP_SEGMENT_KEY=$REACT_APP_UAT_SEGMENT_KEY
+      --build-arg REACT_APP_MAP_KEY=$REACT_APP_MAP_KEY
+      --no-cache -t spence-uat .
+    - docker run -d 
+      -e NODE_PATH=$NODE_PATH
+      -e REACT_APP_API=$REACT_APP_UAT_API
+      -e REACT_APP_YODLEE_API=$REACT_APP_YODLEE_SANDBOX_API
+      -e REACT_APP_YODLEE_FASTLINK=$REACT_APP_YODLEE_FASTLINK_UAT
+      -e REACT_APP_SENTRY_DNS=$REACT_APP_SENTRY_DNS
+      -e REACT_APP_SEGMENT_KEY=$REACT_APP_UAT_SEGMENT_KEY
+      -e REACT_APP_MAP_KEY=$REACT_APP_MAP_KEY
+      -p 1338:80 spence-uat
+  when: manual
+  only:
+    - uat
+
+deploy_prod:
+  stage: deploy
+  tags: 
+    - build
+  before_script:
+    - chmod +x ./bin/build.sh
+    - bash ./bin/build.sh production
+    - docker info
+    - docker image prune -f
+  script:
+    - docker build
+      --build-arg NODE_PATH=$NODE_PATH
+      --build-arg REACT_APP_API=$REACT_APP_PRODUCTION_API
+      --build-arg REACT_APP_YODLEE_API=$REACT_APP_YODLEE_PRODUCTION_API
+      --build-arg REACT_APP_YODLEE_FASTLINK=$REACT_APP_YODLEE_FASTLINK_PRODUCTION
+      --build-arg REACT_APP_SENTRY_DNS=$REACT_APP_SENTRY_DNS
+      --build-arg REACT_APP_SEGMENT_KEY=$REACT_APP_UAT_SEGMENT_KEY
+      --build-arg REACT_APP_MAP_KEY=$REACT_APP_MAP_KEY
+      --no-cache -t spence-prod .
+    - docker run -d 
+      -e NODE_PATH=$NODE_PATH
+      -e REACT_APP_API=$REACT_APP_PRODUCTION_API
+      -e REACT_APP_YODLEE_API=$REACT_APP_YODLEE_PRODUCTION_API
+      -e REACT_APP_YODLEE_FASTLINK=$REACT_APP_YODLEE_FASTLINK_PRODUCTION
+      -e REACT_APP_SENTRY_DNS=$REACT_APP_SENTRY_DNS
+      -e REACT_APP_SEGMENT_KEY=$REACT_APP_UAT_SEGMENT_KEY
+      -e REACT_APP_MAP_KEY=$REACT_APP_MAP_KEY
+      -p 1339:80 spence-prod
+  when: manual
+  only:
+    - master

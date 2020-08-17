@@ -1,0 +1,57 @@
+# build environment
+FROM node:10.16.3-alpine as build
+WORKDIR /app
+
+# ENV PATH /app/node_modules/.bin:$PATH
+
+# COPY PACKAGE
+COPY package.json ./
+COPY yarn.lock ./
+COPY scripts/ ./scripts
+
+# INSTALL YARN
+RUN apk add yarn
+
+# INSTALL PACKAGES
+RUN yarn
+
+# COPY SOURCE CODE
+COPY . ./
+
+# SET ENV
+ARG NODE_PATH
+ENV NODE_PATH $NODE_PATH
+
+ARG REACT_APP_API
+ENV REACT_APP_API $REACT_APP_API
+
+ARG REACT_APP_YODLEE_API
+ENV REACT_APP_YODLEE_API $REACT_APP_YODLEE_API
+
+ARG REACT_APP_YODLEE_FASTLINK
+ENV REACT_APP_YODLEE_FASTLINK $REACT_APP_YODLEE_FASTLINK
+
+ARG REACT_APP_SENTRY_DNS
+ENV REACT_APP_SENTRY_DNS $REACT_APP_SENTRY_DNS
+
+ARG REACT_APP_SEGMENT_KEY
+ENV REACT_APP_SEGMENT_KEY $REACT_APP_SEGMENT_KEY
+
+ARG REACT_APP_MAP_KEY
+ENV REACT_APP_MAP_KEY $REACT_APP_MAP_KEY
+
+RUN yarn run build
+
+# production environment
+FROM nginx:stable-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+# COPY NGINX
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# EXPOSE PORT 80
+EXPOSE 80
+
+# START APP
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,13 @@
+{
+  "name": "gospence-staging",
+  "version": 2,
+  "alias": "gospence-staging.now.sh",
+  "env": {
+    "NODE_ENV": "staging"
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "staging"
+    }
+  }
+}

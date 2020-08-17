@@ -1,0 +1,13 @@
+{
+  "name": "gospence-production",
+  "version": 2,
+  "alias": "gospence-production.now.sh",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
+}

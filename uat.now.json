@@ -1,0 +1,13 @@
+{
+  "name": "gospence-uat",
+  "version": 2,
+  "alias": "gospence-uat.now.sh",
+  "env": {
+    "NODE_ENV": "uat"
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "uat"
+    }
+  }
+}

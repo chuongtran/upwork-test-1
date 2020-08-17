@@ -1,0 +1,7 @@
+src/components/DEPRECATEDS/**
+
+src/serviceWorker.js
+
+scripts/**
+config/**
+public/**
