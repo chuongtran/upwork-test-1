@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const StyledMenu = styled.div`
+  z-index: 10;
+  max-width: 510px;
+  margin: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -35,7 +38,7 @@ const StyledMenuItem = styled(Link)`
 `;
 
 const Menu = ({ items }) => (
-  <>
+  <div>
     <StyledMenu>
       {items.map((item, itemIndex) => (
         <StyledMenuItem to={item.path} key={itemIndex}>
@@ -44,7 +47,7 @@ const Menu = ({ items }) => (
         </StyledMenuItem>
       ))}
     </StyledMenu>
-  </>
+  </div>
 );
 
 Menu.propTypes = {

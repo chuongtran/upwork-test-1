@@ -6,7 +6,10 @@ read_var() {
 }
 
 if [ ${NODE_ENV} == "development" ];then
-  
+     REACT_APP_API=$(read_var REACT_APP_STAGING_API .env)
+     REACT_APP_SEGMENT_KEY=$(read_var REACT_APP_STAGING_SEGMENT_KEY .env)
+     REACT_APP_YODLEE_FASTLINK=$(read_var REACT_APP_YODLEE_FASTLINK_SANDBOX .env)
+     REACT_APP_YODLEE_API=$(read_var REACT_APP_YODLEE_SANDBOX_API .env)
 fi
 
 if [ ${NODE_ENV} == "uat" ];then
@@ -23,6 +26,10 @@ if [ ${NODE_ENV} == "uat" ];then
 
      case $yn in
         [Yy]* )
+               REACT_APP_API=$(read_var REACT_APP_UAT_API .env)
+               REACT_APP_SEGMENT_KEY=$(read_var REACT_APP_UAT_SEGMENT_KEY .env)  
+               REACT_APP_YODLEE_FASTLINK=$(read_var REACT_APP_YODLEE_FASTLINK_SANDBOX .env)
+               REACT_APP_YODLEE_API=$(read_var REACT_APP_YODLEE_SANDBOX_API .env)
                break;;
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
@@ -44,6 +51,10 @@ if [ ${NODE_ENV} == "production" ];then
 
      case $yn in
         [Yy]* )
+               REACT_APP_API=$(read_var REACT_APP_PRODUCTION_API .env)
+               REACT_APP_SEGMENT_KEY=$(read_var REACT_APP_UAT_SEGMENT_KEY .env)     
+               REACT_APP_YODLEE_FASTLINK=$(read_var REACT_APP_YODLEE_FASTLINK_PRODUCTION .env)
+               REACT_APP_YODLEE_API=$(read_var REACT_APP_YODLEE_PRODUCTION_API .env)   
                break;;
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;

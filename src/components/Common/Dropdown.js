@@ -8,7 +8,6 @@ import { Close } from 'components/Icons';
 import Button from './Button';
 import { Container } from '../PageLayout';
 
-
 const DropdownWrapper = styled.div`
   .dropdown__container {
     overflow: auto;
@@ -22,7 +21,7 @@ const DropdownWrapper = styled.div`
     transition: 0.4s cubic-bezier(0.25, 0, 0, 0.991) bottom;
     // transform: translateY(100%);
     z-index: 1000;
-    background: ${(props) => (props.type === 'primary' ? 'linear-gradient(122.07deg, #36D1DC -46.29%, #5B86E5 126.96%)' : 'linear-gradient(115.52deg, #5574F7 -11.1%, #A38CFF 111.97%)')};
+    background: ${(props) => (props.type === 'primary' ? props.theme.backgroundPrimary : props.theme.backgroundSecondary)};
     border-radius: 16px 16px 0px 0px;
     padding-top: 16px;
     padding-bottom: 16px;
@@ -120,6 +119,5 @@ Dropdown.defaultProps = {
   hasCloseIcon: true,
   modalTitle: null,
 };
-
 
 export default Dropdown;

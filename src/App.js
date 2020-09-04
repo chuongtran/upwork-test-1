@@ -50,9 +50,11 @@ const ITEMS = [
   },
 ];
 
-// Employee
 const PageCounselors = lazy(() => import('./pages/PageCounselors/PageCounselors'));
 const PageCounselorDetails = lazy(() => import('./pages/PageCounselorDetails/PageCounselorDetails'));
+const SpacePublic = lazy(() => import('./pages/SpacePublic/SpacePublic'));
+const PagePrivy = lazy(() => import('./pages/PagePrivy/PagePrivy'));
+const SpaceMind = lazy(() => import('./pages/SpaceMind/SpaceMind'));
 
 const App = () => {
   useEffect(() => {
@@ -66,6 +68,9 @@ const App = () => {
           <AnimatedSwitch>
             <Route exact path="/counselors" component={PageCounselors} />
             <Route exact path="/counselors/:counselorId" component={PageCounselorDetails} />
+            <Route exact path="/privy" component={PagePrivy} />
+            <Route path="/mind" component={SpaceMind} />
+            <Route path="/" component={SpacePublic} />
           </AnimatedSwitch>
           <Menu items={ITEMS} />
         </Suspense>

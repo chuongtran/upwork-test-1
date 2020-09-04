@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const StyledNavigation = styled.div`
   background: ${(props) => (props.noBackground ? 'none' : '#fff')};
   position: ${(props) => (props.noBackground ? 'absolute' : 'fixed')};
+  // position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -21,6 +22,9 @@ const StyledNavigation = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: ${({ theme }) => theme.appMaxWidth};
+  margin-left: auto;
+  margin-right: auto;
 
   .elem {
     display: flex;
@@ -30,6 +34,10 @@ const StyledNavigation = styled.div`
     position: absolute;
     top: 0;
     bottom: 0;
+
+    span {
+      font-size: 17px;
+    }
 
     &--left {
       left: 16px;
@@ -43,12 +51,24 @@ const StyledNavigation = styled.div`
 
 const StyledProgress = styled.div`
   position: absolute;
-  left: 0;
+  left: 16px;
   height: 3px;
-  bottom: 0;
-  background-color: ${(props) => props.theme.colorPrimary};
-  transition: 0.4s all;
-  width: ${(props) => props.width}%;
+  bottom: 0px;
+  right: 16px;
+  background-color: #fff;
+
+  &::before {
+    transition: 0.4s all;
+    content: "";
+    background: ${(props) => props.theme.colorLinearOrange};
+    width: ${(props) => props.width}%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+
 `;
 const Navigation = ({
   label,
@@ -58,9 +78,10 @@ const Navigation = ({
   noBackground,
   hasShadow,
   style,
+  className,
 }) => (
   <div className="" style={{ height: '60px', ...style }}>
-    <StyledNavigation noBackground={noBackground} hasShadow={hasShadow}>
+    <StyledNavigation noBackground={noBackground} hasShadow={hasShadow} className={className}>
       <div className="elem elem--left">{leftElem || null}</div>
       <div className="navigation-label flex justify-content-center">
         {label}

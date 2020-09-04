@@ -81,6 +81,9 @@ const basicStyle = `
   }
 
   .text {
+    &--courgette {
+      font-family: Courgette;
+    }
     &--nowrap {
       white-space: nowrap;
     }
@@ -91,6 +94,12 @@ const basicStyle = `
     &--secondary {
       color: #8A84FC;
       fill: #8A84FC;
+    }
+    &--orange {
+      background-image: linear-gradient(91.67deg, #FC9D83 -0.59%, #FFCE00 107.84%);
+      fill: linear-gradient(91.67deg, #FC9D83 -0.59%, #FFCE00 107.84%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     &--white {
       color: #fff;
@@ -195,7 +204,7 @@ const basicStyle = `
 
   .switch-wrapper {
     position: relative;
-    overflow: auto;
+    // overflow: auto;
     margin-bottom: 70px;
   }
 
@@ -203,6 +212,22 @@ const basicStyle = `
     position: absolute;
     width: 100%;
     height: 100%;
+  }
+
+  .buttons {
+    position: fixed;
+    bottom: 1.6rem;
+    left: 0;
+    right: 0;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    max-width: 510px;
+    margin-left: auto;
+    margin-right: auto;
+
+    &--with-menu {
+      bottom: 80px;
+    }
   }
 
 `;
@@ -234,11 +259,38 @@ const paddingStyle = arr.map((item) => {
   return output;
 });
 
+const keyFrames = `
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(60px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+`;
 
-const textSizes = [13, 14, 15, 16, 17, 18];
+const animationDelay = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const animationStep = 0.1;
+const animations = `
+  .fade-in-up {
+    opacity: 0;
+    animation-name: fadeInUp;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+  }
+  ${animationDelay.map((delay) => `.animation--delay-${delay} { animation-delay: ${delay * animationStep}s }`).join(';')}
+  ${animationDelay.map((delay) => `.animation:nth-child(${delay}) { animation-delay: ${delay * animationStep}s }`).join(';')}
+`;
+
+const textSizes = [13, 14, 15, 16, 17, 18, 22, 24];
 const textSizeStyle = textSizes.map((size) => `.text--size-${size} {font-size: ${size}px;}`);
 export default createGlobalStyle`
   ${basicStyle}
   ${paddingStyle.join(' ')}
   ${textSizeStyle.join(' ')}
+  ${animations}
+  ${keyFrames}
 `;

@@ -120,14 +120,14 @@ const StyledInput = styled.input`
 const Input = ({
   prefix, label, className, value, mask, disabled, ...rest
 }) => (
-  <StyledLabel className={disabled && 'disabled'}>
+  <StyledLabel className={classnames(className, { disabled })}>
     <div className="flex align-items-center">
       {prefix ? <span className="prefix">{prefix}</span> : null}
       <div className="input__container">
         <StyledInput
           disabled={disabled}
           value={value || ''}
-          className={classnames(className, { empty: !value })}
+          className={classnames({ empty: !value })}
           {...rest}
         />
         {label ? <span className="input__label">{label}</span> : null}

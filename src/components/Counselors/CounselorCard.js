@@ -23,7 +23,6 @@ const StyledAvatar = styled.img`
   border-radius: 0 16px 0 16px;
 `;
 
-
 const CounselorCard = ({ counselor }) => {
   const history = useHistory();
   return (

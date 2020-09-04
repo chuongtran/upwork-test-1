@@ -13,7 +13,6 @@ const StyledAvatar = styled.div`
   }
 `;
 
-
 const Avatar = ({ src, width }) => (
   <StyledAvatar width={width} className="flex align-items-center justify-content-center">
     <img src={src} />

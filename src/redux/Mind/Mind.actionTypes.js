@@ -1,0 +1,2 @@
+export const START_EDITING_MIND = 'START_EDITING_MIND';
+export const EDIT_MIND = 'EDIT_MIND';

@@ -109,7 +109,6 @@ const Sorter = ({ orderBy, onUpdate }) => {
   );
 };
 
-
 const CounselorsFilter = () => {
   const [open, setOpen] = useState(false);
   const filter = useSelector(selectCounselorFilter());
