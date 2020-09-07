@@ -21,7 +21,7 @@ const StyledPage = styled.div`
     content: "";
     background-image: url(/assets/images/bg_landing-page.svg);
     background-size: cover;
-    background-position: center bottom;
+    background-position: center center;
     position: absolute;
     top: 0;
     left: 0;

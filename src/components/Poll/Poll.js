@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
+import ScrollContainer from 'react-indiana-drag-scroll';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -8,6 +9,31 @@ import { uniq } from 'lodash';
 import { Navigation, Container } from 'components/PageLayout';
 
 const StyledWrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+
+  .question {
+    flex: 1;
+  }
+  .buttons {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 1.6rem;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+
+    .answers {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding-bottom: 1.6rem;
+    }
+  }
+
   .poll_answer.selected {
     position: relative;
     overflow: hidden;
@@ -75,21 +101,25 @@ const Poll = ({
   return (
     <StyledWrapper className="poll">
       {navigator}
-      <Container>
-        <div className="pt-5 text--white text--courgette text--size-22 text-center">
-          {currentQuestion.question}
-        </div>
-      </Container>
+      <div className="question">
+        <Container>
+          <div className="pt-5 text--white text--courgette text--size-22 text-center">
+            {currentQuestion.question}
+          </div>
+        </Container>
+      </div>
       <div className="buttons">
-        {(currentQuestion.options || []).map((opt, optIndex) => {
-          const selected = (answers[questionIndex] || []).includes(opt);
-          return (
-            <Button className={`poll_answer ${selected ? 'selected' : ''}`} whiteBackground={selected} key={optIndex} onClick={() => onOptionSelect(opt)}>
-              {selected && <CheckOrange />}
-              <span>{opt}</span>
-            </Button>
-          );
-        })}
+        <ScrollContainer className="answers">
+          {(currentQuestion.options || []).map((opt, optIndex) => {
+            const selected = (answers[questionIndex] || []).includes(opt);
+            return (
+              <Button className={`poll_answer ${selected ? 'selected' : ''}`} whiteBackground={selected} key={optIndex} onClick={() => onOptionSelect(opt)}>
+                {selected && <CheckOrange />}
+                <span>{opt}</span>
+              </Button>
+            );
+          })}
+        </ScrollContainer>
         {currentQuestion.allowMultiple && (
           <Button
             disabled={!answers[questionIndex] || !answers[questionIndex].length}

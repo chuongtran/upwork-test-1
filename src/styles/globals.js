@@ -224,6 +224,8 @@ const basicStyle = `
     max-width: 510px;
     margin-left: auto;
     margin-right: auto;
+    max-height: 80vh;
+    overflow: auto;
 
     &--with-menu {
       bottom: 80px;

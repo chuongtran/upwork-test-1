@@ -1,4 +1,5 @@
 import { Route } from 'react-router-dom';
+import ScrollContainer from 'react-indiana-drag-scroll';
 import React, { Suspense, lazy, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { ConnectedRouter } from 'connected-react-router';
@@ -61,21 +62,23 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={THEME}>
-      <GlobalStyle />
-      <ConnectedRouter history={history}>
-        <Suspense fallback={<Loading type="dots" isScreen />}>
-          <AnimatedSwitch>
-            <Route exact path="/counselors" component={PageCounselors} />
-            <Route exact path="/counselors/:counselorId" component={PageCounselorDetails} />
-            <Route exact path="/privy" component={PagePrivy} />
-            <Route path="/mind" component={SpaceMind} />
-            <Route path="/" component={SpacePublic} />
-          </AnimatedSwitch>
-          <Menu items={ITEMS} />
-        </Suspense>
-      </ConnectedRouter>
-    </ThemeProvider>
+    <ScrollContainer>
+      <ThemeProvider theme={THEME}>
+        <GlobalStyle />
+        <ConnectedRouter history={history}>
+          <Suspense fallback={<Loading type="dots" isScreen />}>
+            <AnimatedSwitch>
+              <Route exact path="/counselors" component={PageCounselors} />
+              <Route exact path="/counselors/:counselorId" component={PageCounselorDetails} />
+              <Route exact path="/privy" component={PagePrivy} />
+              <Route path="/mind" component={SpaceMind} />
+              <Route path="/" component={SpacePublic} />
+            </AnimatedSwitch>
+            <Menu items={ITEMS} />
+          </Suspense>
+        </ConnectedRouter>
+      </ThemeProvider>
+    </ScrollContainer>
   );
 };
 

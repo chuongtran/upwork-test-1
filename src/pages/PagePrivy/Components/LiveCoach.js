@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ScrollContainer from 'react-indiana-drag-scroll';
 import SectionTitle from './SectionTitle';
 import { Container } from 'components/PageLayout';
 
@@ -14,7 +15,7 @@ const StyledSectionWrapper = styled.div`
   padding-top: 80px;
 
 `;
-const StyledWrapper = styled.div`
+const StyledWrapper = styled(ScrollContainer)`
   display: flex;
   flex-wrap: nowrap;
   overflow: auto;

@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import ScrollContainer from 'react-indiana-drag-scroll';
+
 import SectionTitle from './SectionTitle';
 import { Yoga, ArrowRight } from 'components/Icons';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled(ScrollContainer)`
   flex-wrap: nowrap;
   overflow: auto;
   padding-bottom: 50px;
